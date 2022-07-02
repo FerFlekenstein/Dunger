@@ -1,27 +1,47 @@
-let pregunta1 = prompt("Que animal macho parecido a un equino da a luz a sus crías?").toLowerCase();
-let pregunta2 = prompt("Cual es único mamífero que puede volar?").toLowerCase();
-let pregunta3 = parseInt(prompt("en 1912 se hundió el titanic. Hace cuantos años pasó?"));
-switch(pregunta1){
-    case "caballito de mar":
-        alert("Pregunta 1: Correcto!");
-        break;
-    default :
-        alert("Pista 1: está abajo del mar");
-        break;
+let costo1, costo2, operacion, total;
+
+function suma(num1, num2){
+    return num1 + num2;
 }
-switch(pregunta2){
-    case "murcielago":
-        alert("Pregunta 2: Correcto!");
-        break;
-    default:
-        alert("Pista 2: Puede que batman te ayude");
-        break;
+
+function resta(total, num1){
+    return total - num1;
 }
-switch(pregunta3){
-    case 110:
-        alert("Pregunta 3: Correcto!");
+
+let pregunta = prompt("Tenes un costo total? elige `Si` o `No`").toLowerCase();
+
+if (pregunta == "si"){
+    do{
+        total = parseFloat(prompt("Ingrese su costo total"));
+        costo1 = parseFloat(prompt("Ingrese el precio de un producto que desee añadir"));
+        operacion = prompt("Quieres `sumar` o `restar`?").toLowerCase();
+        if (isNaN(costo1) || isNaN(total)){
+            alert("Por favor, unicamente ingrese numeros");
+        }
+    }while(isNaN(total) || isNaN(costo1))
+
+    switch (operacion){
+        case "sumar":
+            alert("Su nuevo costo total es de: " + suma(total, costo1));
+            break;
+        case "restar":
+            alert("Su nuevo costo total es de: " + resta(total, costo1));
+            break;
+        default:
+        alert("Por favor escriba la palabra `sumar` o `restar` según su caso");
         break;
-    default :
-        alert("Pista 3: 2022 - 1912 = ?");
-        break;
+    }
+}
+else if (pregunta == "no"){
+    do{
+        costo1 = parseFloat(prompt("Ingrese un costo de un producto"));
+        costo2 = parseFloat(prompt("Ingrese un costo de un producto"));
+        if (isNaN(costo1) || isNaN(costo2)){
+            alert("Por favor, unicamente ingrese números");
+        }
+    }while(isNaN(costo1) || isNaN(costo2))
+    alert(`El costo total de sus productos seleccionados es: ` + suma(costo1, costo2));
+
+}else{
+    alert("Por favor, escriba `Si` o `No` según corresponda");
 }
