@@ -1,47 +1,45 @@
-let costo1, costo2, operacion, total;
-
-function suma(num1, num2){
-    return num1 + num2;
-}
-
-function resta(total, num1){
-    return total - num1;
-}
-
-let pregunta = prompt("Tenes un costo total? elige `Si` o `No`").toLowerCase();
-
-if (pregunta == "si"){
-    do{
-        total = parseFloat(prompt("Ingrese su costo total"));
-        costo1 = parseFloat(prompt("Ingrese el precio de un producto que desee añadir"));
-        operacion = prompt("Quieres `sumar` o `restar`?").toLowerCase();
-        if (isNaN(costo1) || isNaN(total)){
-            alert("Por favor, unicamente ingrese numeros");
-        }
-    }while(isNaN(total) || isNaN(costo1))
-
-    switch (operacion){
-        case "sumar":
-            alert("Su nuevo costo total es de: " + suma(total, costo1));
-            break;
-        case "restar":
-            alert("Su nuevo costo total es de: " + resta(total, costo1));
-            break;
-        default:
-        alert("Por favor escriba la palabra `sumar` o `restar` según su caso");
-        break;
+const lista = []
+class Personaje{
+    constructor(raza, clase, vida, nombre){
+        this.raza = raza
+        this.clase = clase
+        this.vida = vida
+        this.nombre = nombre
     }
 }
-else if (pregunta == "no"){
-    do{
-        costo1 = parseFloat(prompt("Ingrese un costo de un producto"));
-        costo2 = parseFloat(prompt("Ingrese un costo de un producto"));
-        if (isNaN(costo1) || isNaN(costo2)){
-            alert("Por favor, unicamente ingrese números");
-        }
-    }while(isNaN(costo1) || isNaN(costo2))
-    alert(`El costo total de sus productos seleccionados es: ` + suma(costo1, costo2));
+// el usuario crea obj
+let acumulador;
+do{
+    acumulador = parseInt(prompt("Cuantos personajes hay en su partida?"))
+}while(isNaN(acumulador))
 
-}else{
-    alert("Por favor, escriba `Si` o `No` según corresponda");
+let raza, clase, vida, nombre;
+for (let contador = 1; contador <= acumulador; contador++){
+    raza = prompt(`Cual es la raza de su personaje?`).toLowerCase()
+    clase = prompt("De que clase es?").toLowerCase()
+    do{
+        vida = parseInt(prompt("Cuantos puntos de vida tiene?"))
+        if (isNaN(vida)){
+            alert("Ingrese numeros unicamente")
+        }
+    }while(isNaN(vida))
+    nombre = prompt(`Cual es su nombre?`)
+    const nuevoPj = new Personaje(raza, clase, vida, nombre)
+    lista.push(nuevoPj)
 }
+// interaccion usuario-array de obj
+let opciones;
+do{
+    opciones = parseInt(prompt(`Presione:
+    1- Ordenar de mayor a menor segun sus puntos de vida.
+    2- Filtrar por razas.`))
+}while(isNaN(opciones) || opciones < 1 || opciones > 2)
+if (opciones == 1){
+    console.log(lista.sort((a, b) => b.vida - a.vida))
+}else if (opciones == 2){ 
+    console.log(lista.filter(nuevoPj => nuevoPj.raza == prompt("Buscar por raza.").toLowerCase()))
+}else{
+    alert("No existe esa opción. Inténtelo nuevamente.")
+}
+
+
