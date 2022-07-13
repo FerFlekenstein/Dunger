@@ -1,32 +1,40 @@
-const lista = []
-class Personaje{
-    constructor(raza, clase, vida, nombre){
+class Character{
+    constructor(nombre, clase, raza, vida){
         this.raza = raza
         this.clase = clase
         this.vida = vida
         this.nombre = nombre
     }
+    aumtentarVida (aumento){
+        this.vida += aumento
+    }
+    reducirVida (reduccion){
+        this.vida -= reduccion
+    }
+}
+const lista = []
+
+function makeCharacter(nombre, clase, raza, vida){
+    const newCharacter = new Character(nombre, clase, raza, vida)
+    lista.push(newCharacter)
+}
+
+function validadorNum (mensaje = "", num = 0){
+    do{
+        num = parseInt(prompt(`${mensaje}`))
+    }while(isNaN(num))
 }
 // el usuario crea obj
-let acumulador;
+let nombre, clase, raza, vida, cut
 do{
-    acumulador = parseInt(prompt("Cuantos personajes hay en su partida?"))
-}while(isNaN(acumulador))
+    nombre = prompt("Cual es el nombre de su personaje?").toLowerCase()
+    clase = prompt(`Cual es la clase de ${nombre}`).toLowerCase()
+    raza = prompt(`Cual es la raza de ${nombre}?`).toLowerCase()
+    validadorNum(`Cuantos puntos de vida tiene ${nombre}`, vida)
+    makeCharacter(nombre, clase, raza, vida)
+    cut = prompt("Quiere agregar mas personajes?").toLowerCase()
+}while(cut !== "no")
 
-let raza, clase, vida, nombre;
-for (let contador = 1; contador <= acumulador; contador++){
-    raza = prompt(`Cual es la raza de su personaje?`).toLowerCase()
-    clase = prompt("De que clase es?").toLowerCase()
-    do{
-        vida = parseInt(prompt("Cuantos puntos de vida tiene?"))
-        if (isNaN(vida)){
-            alert("Ingrese numeros unicamente")
-        }
-    }while(isNaN(vida))
-    nombre = prompt(`Cual es su nombre?`)
-    const nuevoPj = new Personaje(raza, clase, vida, nombre)
-    lista.push(nuevoPj)
-}
 // interaccion usuario-array de obj
 let opciones;
 do{
@@ -37,9 +45,8 @@ do{
 if (opciones == 1){
     console.log(lista.sort((a, b) => b.vida - a.vida))
 }else if (opciones == 2){ 
-    console.log(lista.filter(nuevoPj => nuevoPj.raza == prompt("Buscar por raza.").toLowerCase()))
+    let guardar = prompt("Buscar por raza.").toLowerCase()
+    console.log(lista.filter(personaje => personaje.raza == guardar))
 }else{
     alert("No existe esa opción. Inténtelo nuevamente.")
 }
-
-
