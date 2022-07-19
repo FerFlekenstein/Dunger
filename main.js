@@ -1,4 +1,4 @@
-class Character{
+class Personaje{
     constructor(nombre, clase, raza, vida){
         this.raza = raza
         this.clase = clase
@@ -14,39 +14,39 @@ class Character{
 }
 const lista = []
 
-function makeCharacter(nombre, clase, raza, vida){
-    const newCharacter = new Character(nombre, clase, raza, vida)
-    lista.push(newCharacter)
-}
+let nombre, clase, raza, vida, imagen
 
-function validadorNum (mensaje = "", num = 0){
-    do{
-        num = parseInt(prompt(`${mensaje}`))
-    }while(isNaN(num))
+function crearPersonaje(nombre, clase, raza, vida){
+    const nuevoPj = new Personaje(nombre, clase, raza, vida)
+    lista.push(nuevoPj)
 }
-// el usuario crea obj
-let nombre, clase, raza, vida, cut
-do{
-    nombre = prompt("Cual es el nombre de su personaje?").toLowerCase()
-    clase = prompt(`Cual es la clase de ${nombre}`).toLowerCase()
-    raza = prompt(`Cual es la raza de ${nombre}?`).toLowerCase()
-    validadorNum(`Cuantos puntos de vida tiene ${nombre}`, vida)
-    makeCharacter(nombre, clase, raza, vida)
-    cut = prompt("Quiere agregar mas personajes?").toLowerCase()
-}while(cut !== "no")
+const formulario = document.getElementById('formulario')
 
-// interaccion usuario-array de obj
-let opciones;
-do{
-    opciones = parseInt(prompt(`Presione:
-    1- Ordenar de mayor a menor segun sus puntos de vida.
-    2- Filtrar por razas.`))
-}while(isNaN(opciones) || opciones < 1 || opciones > 2)
-if (opciones == 1){
-    console.log(lista.sort((a, b) => b.vida - a.vida))
-}else if (opciones == 2){ 
-    let guardar = prompt("Buscar por raza.").toLowerCase()
-    console.log(lista.filter(personaje => personaje.raza == guardar))
-}else{
-    alert("No existe esa opción. Inténtelo nuevamente.")
-}
+formulario.addEventListener('submit', (event) => {
+    event.preventDefault()
+    let nombre = document.getElementById("nombrePJ").value
+    let clase = document.getElementById("clasesPj").value
+    let raza = document.getElementById("razaPj").value
+    let vida = document.getElementById("vidaPj").value
+    crearPersonaje(nombre, clase, raza, vida)
+    formulario.reset()
+})
+const mostrarPjs = document.getElementById("mostrarPjs")
+const contenedorPj = document.getElementById("contenedorPj")
+mostrarPjs.addEventListener("click", () => {
+    lista.forEach(personaje => {
+        contenedorPj.innerHTML +=`
+        <div class="card" style="width: 18rem;">
+            <div class="row align-items-end">
+            <p class="col-2 rounded-circle bg-success p-2 text-dark bg-opacity-50 text-center">
+            ${personaje.vida}
+            </p>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title text-center">${personaje.nombre}</h5>
+                <p class="card-text">${personaje.raza}</p>
+            </div>
+        </div>
+        `
+    })   
+})
