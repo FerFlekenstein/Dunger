@@ -3,3 +3,7 @@
     padding: 0;
     box-sizing: border-box;
 }
+.modoOscuro{
+    background-color: black;
+    color: white;
+}
