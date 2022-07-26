@@ -42,19 +42,44 @@
                         <option value="guerrero">Guerrero</option>
                         <option value="mago">Mago</option>
                         <option value="arquero">Arquero</option>
+                        <option value="artificiero">Artificiero</option>
+                        <option value="barbaro">Bárbaro</option>
+                        <option value="bardo">Bardo</option>
+                        <option value="brujo">Brujo</option>
+                        <option value="cazadorDeSangre">Cazador de sangre</option>
+                        <option value="clerigo">Clerigo</option>
+                        <option value="druida">Druida</option>
+                        <option value="hechicero">Hechicero</option>
+                        <option value="monje">Monje</option>
+                        <option value="paladin">Paladín</option>
+                        <option value="picaro">Pícaro</option>
                     </select>
                 </div>
                 <div>
                     <label for="vidaPj" class="form-label">Puntos de vida</label>
-                    <input type="number" class="form-control" id="vidaPj">
+                    <input required type="number" class="form-control" id="vidaPj">
                 </div>
                 <button type="submit" class="btn btn-primary mt-2">Crear personaje</button>
+            </form>
+        </div>
+        <div>
+            <form class="col-6" id="formObjeto">
+                <div class="mb-3">
+                    <label for="nombreItem" class="form-label">Nombre del objeto</label>
+                    <input type="input" class="form-control" id="nombreObjeto" name="nombre">
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <input type="input" class="form-control" id="descripcion" name="descripcion">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Añadir objeto</button>
             </form>
         </div>
         <button type="click" id="mostrarPjs" class="btn btn-primary ms-5 mt-2">Ver mis personajes</button>
         <div id="contenedorPj" class="row ms-4 mt-2 mb-3"></div>
     </main>
     <footer>
+        <!-- <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample${indice}" aria-expanded="false" aria-controls="multiCollapseExample${indice}">Ver inventario</button> -->
     </footer>
     <script src="./main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>
