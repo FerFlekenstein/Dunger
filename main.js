@@ -5,19 +5,22 @@ class Personaje{
         this.vida = vida
         this.nombre = nombre
         this.imagen = imagen
+        this.inventario = []
     }
 }
-// por ahora uso let en este array porque lo paso a localStorage
-let lista = []
-
+class Objeto {
+    constructor(nombre, descripcion){
+        this.nombre = nombre
+        this.descripcion = descripcion
+    }
+}
 function crearPersonaje(nombre, clase, raza, vida, imagen){
     const nuevoPj = new Personaje(nombre, clase, raza, vida, imagen)
     lista.push(nuevoPj)
 }
-
-// creacion de personajes
+// creacion de personajes y su array
+const lista = JSON.parse(localStorage.getItem("personajes"))?? []
 const formulario = document.getElementById('formulario')
-
 formulario.addEventListener('submit', (event) => {
     event.preventDefault()
     let nombre = document.getElementById("nombrePJ").value
@@ -75,96 +78,118 @@ formulario.addEventListener('submit', (event) => {
     localStorage.setItem("personajes", JSON.stringify(lista))
     formulario.reset()
 })
-// creacion de objetos
-class Objeto {
-    constructor(nombre, descripcion){
-        this.nombre = nombre
-        this.descripcion = descripcion
-    }
-}
-let inventario = []
-
-// Capto la info de los objetos
-let formObjeto = document.getElementById(`formObjeto`)
-formObjeto.addEventListener('submit', (e) => {
-    e.preventDefault()
-    let datForm = new FormData(e.target)
-    let objeto = new Objeto(datForm.get('nombre'), datForm.get('descripcion'))
-    inventario.push(objeto)
-    localStorage.setItem('objetos', JSON.stringify(inventario))
-    formObjeto.reset()
-})
-
-// mostrar los personajes creados
+// boton mostrar personajes creados
 const mostrarPjs = document.getElementById("mostrarPjs")
-const contenedorPj = document.getElementById("contenedorPj")
-let listaStorage = JSON.parse(localStorage.getItem("personajes"))
+const contenedorPj = document.getElementById("multiCollapseExample0")
+// const lista = JSON.parse(localStorage.getItem("personajes"))?? []
 mostrarPjs.addEventListener("click", () => {
     contenedorPj.innerHTML = ``
-    listaStorage.forEach((personaje, indice) => {
+    lista.forEach((personaje, indice) => {
         contenedorPj.innerHTML +=`
         <div class="card text-dark" style="width: 18rem;" id="carta${indice}">
-            <div class="row align-items-end">
-            <p class="col-2 rounded-circle bg-danger p-2 text-dark bg-opacity-50 text-center">
-            ${personaje.vida}
-            </p>
-            <button>Eliminar</button>
+            <div class="row justify-content-end">
+                <button class="btn btn-danger col-2 align-self-end">X</button>
             </div>
             <img src=${personaje.imagen} class="card-img-top" alt="es un ${personaje.clase}">
-            <div class="card-body">
-                <h5 class="card-title text-center">${personaje.nombre}</h5>
+            <div class="card-body text-center">
+                <div class="row">
+                    <div class="col-2 text-danger m-0 p-0">
+                        <p class="text-center d-inline">${personaje.vida}
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart-fill" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M8 1.314C12.438-3.248 23.534 4.735 8 15-7.534 4.736 3.562-3.248 8 1.314z"/>
+                        </svg>
+                        </p>
+                    </div>
+                    <h5 class="card-title col-8 ">${personaje.nombre}</h5>
+                </div>
                 <p class="card-text">${personaje.raza}</p>
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample${indice}" aria-expanded="false" aria-controls="multiCollapseExample${indice}" id="inventario${indice}">Ver inventario</button>
-                <div class="row" id="multiCollapseExample${indice}">
+
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1${indice}" aria-expanded="false" aria-controls="multiCollapseExample1${indice}" id="form${indice}">+</button>
+
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2${indice}" aria-expanded="false" aria-controls="multiCollapseExample2${indice}" id="inventario${indice}">Ver inventario</button>
+
+                <div class="collapse multi-collapse row" id="multiCollapseExample1${indice}">
+                </div>
+
+                <div class="collapse multi-collapse row" id="multiCollapseExample2${indice}">
                 </div>
             </div>
          </div>
         `
-    })
-    // boton para eliminar personajes
-    listaStorage.forEach((personaje, indice) => {
+        // boton eliminar personajes
         let botonEliminar = document.getElementById(`carta${indice}`).firstElementChild.lastElementChild
         botonEliminar.addEventListener('click', () => {
             document.getElementById(`carta${indice}`).remove()
-            lista.splice(indice,1)
+            lista.splice(indice, 1)
             localStorage.setItem('personajes', JSON.stringify(lista))
         })
     })
-
-    // mostrando inventario de cada personaje   
-    listaStorage.forEach((personaje, indice) => {
-        let inventarioStorage = JSON.parse(localStorage.getItem(`objetos`))
+    // boton mostrar form objetos
+    lista.forEach((personaje, indice) => {
+        let botonFormObjeto = document.getElementById(`form${indice}`)
+        let contFormObjeto = document.getElementById(`multiCollapseExample1${indice}`)
+        botonFormObjeto.addEventListener("click", () =>{
+            contFormObjeto.innerHTML = ""
+            contFormObjeto.innerHTML += `
+            <form class="col-6" id="formObjeto${indice}">
+                <div class="mb-3">
+                    <label for="nombreItem" class="form-label">Nombre del objeto</label>
+                    <input type="input" class="form-control" id="nombreObjeto" name="nombre">
+                </div>
+                <div class="mb-3">
+                    <label for="descripcion" class="form-label">Descripción</label>
+                    <input type="input" class="form-control" id="descripcion" name="descripcion">
+                </div>
+                <button type="submit" class="btn btn-primary mt-2">Añadir objeto</button>
+            </form>
+            `
+            // boton crear objetos
+            let formObjeto = document.getElementById(`formObjeto${indice}`)
+            formObjeto.addEventListener('submit', (event) => {
+                event.preventDefault()
+                let nombreObjeto = document.getElementById("nombreObjeto").value
+                let descripcion = document.getElementById("descripcion").value
+                const nuevoObjeto = new Objeto(nombreObjeto, descripcion)
+                personaje.inventario.push(nuevoObjeto)
+                localStorage.setItem(`objetos${indice}`, JSON.stringify(personaje.inventario))
+                formObjeto.reset()
+            })
+        })
+    })
+    // boton mostrar inventario de cada personaje 
+    lista.forEach((personaje, indice) => {
+        const inventarioStorage = JSON.parse(localStorage.getItem(`objetos${indice}`)) ?? []
         let mostrarInventario = document.getElementById(`inventario${indice}`)
-        let contenedorInventario = document.getElementById(`multiCollapseExample${indice}`)
+        let contenedorInventario = document.getElementById(`multiCollapseExample2${indice}`)
         mostrarInventario.addEventListener("click", () =>{
-            contenedorInventario.innerHTML = `<h3>Inventario de ${personaje.nombre}</h3>`
-            inventarioStorage.forEach((item) =>{
+            contenedorInventario.innerHTML = ``
+            inventarioStorage.forEach((item, indice) =>{
                 contenedorInventario.innerHTML +=`
-                <div class="card card-body col text-dark row" id="objeto${indice}">
-                    <button class="btn btn-danger text-white col-md-2">X</button>
-                    <h5 class="card-title text-center col-md-5">${item.nombre}</h5>
-                    <p class="card-text col-md-8">${item.descripcion}</p>
+                <div class="card card-body col text-dark row text-center m-0 p-0" id="item${indice}">
+                    <div class="row justify-content-start m-0 p-0">
+                        <h5 class="card-title text-center col-10">${item.nombre}</h5>
+                        <button class="btn btn-danger text-white col-2 align-self-end">X</button>
+                    </div>
+                    <p class="card-text">${item.descripcion}</p>
                 </div>
                 `
             })
-        })
-        // eliminar objetos de inventario
-        /*inventarioStorage.forEach((objeto, indice) => {
-            let botonObjeto = document.getElementById(`objeto${indice}`).firstElementChild
+            // boton eliminar objetos de inventario
+            inventarioStorage.forEach((objeto, indice) => {
+            let botonObjeto = document.getElementById(`item${indice}`).firstElementChild.lastElementChild
             botonObjeto.addEventListener('click', () => {
-                document.getElementById(`objeto${indice}`).remove()
-                inventario.splice(indice,1)
-                localStorage.setItem('objetos', JSON.stringify(inventario))
+                document.getElementById(`item${indice}`).remove()
+                personaje.inventario.splice(indice, 1)
+                localStorage.setItem(`objetos${indice}`, JSON.stringify(personaje.inventario))
+                })
             })
-        })*/
+        })
     })
 })
-
 // Modo noche/dia
 const modoClaro = document.getElementById("modoClaro")
 const modoOscuro = document.getElementById("modoOscuro")
 let oscuro
-
 if(localStorage.getItem("tema")){
     oscuro = localStorage.getItem("tema")
 }else{
