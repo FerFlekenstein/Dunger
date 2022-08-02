@@ -81,14 +81,13 @@ formulario.addEventListener('submit', (event) => {
 // boton mostrar personajes creados
 const mostrarPjs = document.getElementById("mostrarPjs")
 const contenedorPj = document.getElementById("multiCollapseExample0")
-// const lista = JSON.parse(localStorage.getItem("personajes"))?? []
 mostrarPjs.addEventListener("click", () => {
     contenedorPj.innerHTML = ``
     lista.forEach((personaje, indice) => {
         contenedorPj.innerHTML +=`
-        <div class="card text-dark" style="width: 18rem;" id="carta${indice}">
+        <div class="card text-dark m-3" style="width: 18rem;" id="carta${indice}">
             <div class="row justify-content-end">
-                <button class="btn btn-danger col-2 align-self-end">X</button>
+                <button class="btn btn-danger col-2 align-self-end mb-2">X</button>
             </div>
             <img src=${personaje.imagen} class="card-img-top" alt="es un ${personaje.clase}">
             <div class="card-body text-center">
@@ -116,7 +115,9 @@ mostrarPjs.addEventListener("click", () => {
             </div>
          </div>
         `
-        // boton eliminar personajes
+    })
+    // boton eliminar personajes
+    lista.forEach((personaje, indice) => {
         let botonEliminar = document.getElementById(`carta${indice}`).firstElementChild.lastElementChild
         botonEliminar.addEventListener('click', () => {
             document.getElementById(`carta${indice}`).remove()
@@ -134,7 +135,7 @@ mostrarPjs.addEventListener("click", () => {
             <form class="col-6" id="formObjeto${indice}">
                 <div class="mb-3">
                     <label for="nombreItem" class="form-label">Nombre del objeto</label>
-                    <input type="input" class="form-control" id="nombreObjeto" name="nombre">
+                    <input required type="input" class="form-control" id="nombreObjeto" name="nombre">
                 </div>
                 <div class="mb-3">
                     <label for="descripcion" class="form-label">Descripción</label>
@@ -190,11 +191,7 @@ mostrarPjs.addEventListener("click", () => {
 const modoClaro = document.getElementById("modoClaro")
 const modoOscuro = document.getElementById("modoOscuro")
 let oscuro
-if(localStorage.getItem("tema")){
-    oscuro = localStorage.getItem("tema")
-}else{
-    localStorage.setItem("tema", "claro")
-}
+(localStorage.getItem("tema"))? oscuro = localStorage.getItem("tema") : localStorage.setItem("tema", "claro")
 
 if(oscuro == "oscuro"){
     document.body.classList.add("modoOscuro")

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Dunger</title>
     <!-- link bootstrap-->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <!-- link boostwatch -->
@@ -16,58 +16,66 @@
     <header>
         <nav class="navbar navbar-dark bg-primary">
             <div class="container-fluid row">
-                <div class="btn-group m-3 col-1 align-self-start" role="group" aria-label="Basic outlined example">
+                <div class="btn-group m-1 col-1 align-self-start" role="group" aria-label="Basic outlined example">
                     <button type="button" class="btn btn-light btn-outline-warning" id="modoClaro">💡</button>
                     <button type="button" class="btn btn-light btn-outline-warning" id="modoOscuro">🌙</button>
                 </div>
-                <span class="navbar-brand mb-0 h1 col-5 align-self-center">Dunger</span>
+                <h1 class="navbar-brand mb-0 col-5 align-self-center">Dunger</h1>
             </div>
         </nav>
     </header>
     <main>
-        <div class="row justify-content-center mt-3">
-            <form id="formulario" class="col-6">
-                <div class="mb-3">
-                  <label for="nombrePJ" class="form-label">Nombre</label>
-                  <input type="input" class="form-control" id="nombrePJ">
-                </div>
-                <div class="mb-3">
-                    <select class="form-select form-select-sm" id="razaPj">
-                        <option selected>Seleccione su raza</option>
-                        <option value="humano">Humano</option>
-                        <option value="orco">Orco</option>
-                        <option value="elfo">Elfo</option>
-                    </select>
-                </div>
-                <div class="mb-3 form-check">
-                    <select class="form-select form-select-sm" id="clasesPj">
-                        <option selected>Seleccione su clase</option>
-                        <option value="guerrero">Guerrero</option>
-                        <option value="mago">Mago</option>
-                        <option value="arquero">Arquero</option>
-                        <option value="artificiero">Artificiero</option>
-                        <option value="barbaro">Bárbaro</option>
-                        <option value="bardo">Bardo</option>
-                        <option value="brujo">Brujo</option>
-                        <option value="cazadorDeSangre">Cazador de sangre</option>
-                        <option value="clerigo">Clerigo</option>
-                        <option value="druida">Druida</option>
-                        <option value="hechicero">Hechicero</option>
-                        <option value="monje">Monje</option>
-                        <option value="paladin">Paladín</option>
-                        <option value="picaro">Pícaro</option>
-                    </select>
-                </div>
-                <div>
-                    <label for="vidaPj" class="form-label">Puntos de vida</label>
-                    <input required type="number" class="form-control" id="vidaPj">
-                </div>
-                <button type="submit" class="btn btn-primary mt-2">Crear personaje</button>
-            </form>
-        </div>
-        <button class="btn btn-primary ms-5 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample0" aria-expanded="false" aria-controls="multiCollapseExample0" id="mostrarPjs">Ver personajes</button>
-        <div class="collapse multi-collapse row ms-4 mt-2 mb-3" id="multiCollapseExample0">
-        </div>
+        <section class="row mt-3 mb-3 mx-2 justify-content-center">
+            <article class="col-8 border-bottom border-primary">
+                <h2>¿Qué es Dunger?</h2>
+                <p>Es un asistente virtual para tus partidas de dungeons and dragons, en él podrás llevar un control de tus personajes. Cuenta con diferentes ilustraciones para cada clase existente hasta D&D 5° edición, créditos a su autor <a href="https://www.artstation.com/franco-schwetzke" target="_blank">franco-schwetzke.artstation.com</a> </p>
+            </article>
+        </section>
+        <section class="mt-5">
+            <article class="row justify-content-center mt-3">
+                <form id="formulario" class="col-6 border border-primary p-3 rounded">
+                    <div class="mb-3">
+                      <label for="nombrePJ" class="form-label">Nombre</label>
+                      <input type="input" class="form-control" id="nombrePJ">
+                    </div>
+                    <div class="mb-3 mt-3">
+                        <label for="razaPj">Raza</label>
+                        <select required class="form-select form-select-sm" id="razaPj">
+                            <option value="humano">Humano</option>
+                            <option value="orco">Orco</option>
+                            <option value="elfo">Elfo</option>
+                        </select>
+                    </div>
+                    <div class="mb-3 form-check">
+                        <label for="clasesPj">Clase</label>
+                        <select required class="form-select form-select-sm" id="clasesPj">
+                            <option value="guerrero">Guerrero</option>
+                            <option value="mago">Mago</option>
+                            <option value="arquero">Arquero</option>
+                            <option value="artificiero">Artificiero</option>
+                            <option value="barbaro">Bárbaro</option>
+                            <option value="bardo">Bardo</option>
+                            <option value="brujo">Brujo</option>
+                            <option value="cazadorDeSangre">Cazador de sangre</option>
+                            <option value="clerigo">Clerigo</option>
+                            <option value="druida">Druida</option>
+                            <option value="hechicero">Hechicero</option>
+                            <option value="monje">Monje</option>
+                            <option value="paladin">Paladín</option>
+                            <option value="picaro">Pícaro</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label for="vidaPj" class="form-label">Puntos de vida</label>
+                        <input required min="1" type="number" class="form-control" id="vidaPj">
+                    </div>
+                    <button type="submit" class="btn btn-primary mt-2">Crear personaje</button>
+                </form>
+            </article>
+            <button class="btn btn-primary ms-5 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample0" aria-expanded="false" aria-controls="multiCollapseExample0" id="mostrarPjs">Ver personajes</button>
+            <article class="collapse multi-collapse row ms-4 mt-2 mb-3" id="multiCollapseExample0">
+            </article>
+        </section>
     </main>
     <footer>
     </footer>
