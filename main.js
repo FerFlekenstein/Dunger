@@ -1,5 +1,5 @@
 class Personaje{
-    constructor(nombre, clase, raza, vida, imagen){
+    constructor(nombre = "", clase, raza, vida, imagen){
         this.raza = raza
         this.clase = clase
         this.vida = vida
@@ -74,10 +74,20 @@ formulario.addEventListener('submit', (event) => {
             imagen = "./images/signoDePregunta.webp"
             break
     }
-    crearPersonaje(nombre, clase, raza, vida, imagen)
-    localStorage.setItem("personajes", JSON.stringify(lista))
-    formulario.reset()
-})
+    if(nombre == ""){
+        Swal.fire({
+            icon: 'error',
+            title: 'Oops...',
+            text: 'Necesita un nombre',
+            toast: true,
+            position: 'top-end'
+          })
+    }else{
+        crearPersonaje(nombre, clase, raza, vida, imagen)
+        localStorage.setItem("personajes", JSON.stringify(lista))
+        formulario.reset()
+    }
+ })
 // boton mostrar personajes creados
 const mostrarPjs = document.getElementById("mostrarPjs")
 const contenedorPj = document.getElementById("multiCollapseExample0")
@@ -132,7 +142,7 @@ mostrarPjs.addEventListener("click", () => {
         botonFormObjeto.addEventListener("click", () =>{
             contFormObjeto.innerHTML = ""
             contFormObjeto.innerHTML += `
-            <form class="col-6" id="formObjeto${indice}">
+            <form id="formObjeto${indice}">
                 <div class="mb-3">
                     <label for="nombreItem" class="form-label">Nombre del objeto</label>
                     <input required type="input" class="form-control" id="nombreObjeto" name="nombre">
@@ -204,4 +214,28 @@ modoOscuro.addEventListener("click", () =>{
 modoClaro.addEventListener("click", () =>{
     document.body.classList.remove("modoOscuro")
     localStorage.setItem("tema", "claro")
+})
+// dado
+const divDado = document.getElementById("divDado")
+const resultado = document.getElementById("resultado")
+let giro
+function giroDado(numero){
+    giro = Math.round((Math.random() * numero))
+    return giro
+}
+divDado.addEventListener("click", (e) => {
+    if(e.target && e.target.tagName === "DIV" ){
+        
+    }else{
+        let dado = e.target.textContent
+        giroDado(dado)
+        console.log(e.target)
+        Swal.fire({
+            title: `Tu tirada es:`,
+            text: `${giro}`,
+            width: 300,
+            padding: '1em',
+            color: '#716add',
+          })
+    }
 })
