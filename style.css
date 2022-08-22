@@ -7,3 +7,13 @@
     background-color: black;
     color: white;
 }
+body{
+    background-image: url(./images/wp10269516-removebg-preview.png);
+    background-repeat: no-repeat;
+    background-position: bottom;
+    background-size: 100% 70%;
+}
+.fondo{
+    background-color: antiquewhite;
+    
+}

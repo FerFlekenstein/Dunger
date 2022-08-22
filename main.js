@@ -1,9 +1,10 @@
 class Personaje{
-    constructor(nombre = "", clase, raza, vida, imagen){
+    constructor(nombre = "", clase, raza, vida, id, imagen){
         this.raza = raza
         this.clase = clase
         this.vida = vida
         this.nombre = nombre
+        this.id = id
         this.imagen = imagen
         this.inventario = []
     }
@@ -18,7 +19,8 @@ class Objeto {
 const lista = JSON.parse(localStorage.getItem("personajes"))?? []
 const formulario = document.getElementById('formulario')
 function crearPersonaje(nombre, clase, raza, vida, imagen){
-    const nuevoPj = new Personaje(nombre, clase, raza, vida, imagen)
+    let id = lista.length
+    const nuevoPj = new Personaje(nombre, clase, raza, vida, id, imagen)
     lista.push(nuevoPj)
 }
 formulario.addEventListener('submit', (event) => {
@@ -100,15 +102,25 @@ function escTarjeta(arr){
                     <h5 class="card-title col-8 ">${personaje.nombre}</h5>
                 </div>
                 <p class="card-text">${personaje.raza}</p>
+                <div class="border border-success border-2 rounded">
+                    <form id="formObjeto${indice}">
+                        <div class="mb-3">
+                            <label for="nombreItem" class="form-label">Nombre del objeto</label>
+                            <input required type="input" class="form-control" id="nombreObjeto" name="nombre">
+                        </div>
+                        <div class="mb-3">
+                            <label for="descripcion" class="form-label">Descripción</label>
+                            <input type="input" class="form-control" id="descripcion" name="descripcion">
+                        </div>
+                        <button type="submit" class="btn btn-primary m-2">Añadir objeto</button>
+                    </form>
+                </div>
                 <div class="dropdown">
                     <button class="btn btn-primary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">Competencias</button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1" id="comp${indice}">
                     </ul>
                 </div>
-                <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample1${indice}" aria-expanded="false" aria-controls="multiCollapseExample1${indice}" id="form${indice}">+</button>
                 <button class="btn btn-primary" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample2${indice}" aria-expanded="false" aria-controls="multiCollapseExample2${indice}" id="inventario${indice}">Ver inventario</button>
-                <div class="collapse multi-collapse row" id="multiCollapseExample1${indice}">
-                </div>
                 <div class="collapse multi-collapse row" id="multiCollapseExample2${indice}">
                 </div>
             </div>
@@ -127,44 +139,24 @@ function escTarjeta(arr){
         })
     })
 }
-//Crea boton para mostrar formulario de objetos, y crea los objetos
+//Crea los objetos con info del formulario
 function almcenarObj(arr){
-    arr.forEach((personaje, indice) => {
-        let botonFormObjeto = document.getElementById(`form${indice}`)
-        let contFormObjeto = document.getElementById(`multiCollapseExample1${indice}`)
-        botonFormObjeto.addEventListener("click", () =>{
-            contFormObjeto.innerHTML = ""
-            contFormObjeto.innerHTML += `
-            <form id="formObjeto${indice}">
-                <div class="mb-3">
-                    <label for="nombreItem" class="form-label">Nombre del objeto</label>
-                    <input required type="input" class="form-control" id="nombreObjeto" name="nombre">
-                </div>
-                <div class="mb-3">
-                    <label for="descripcion" class="form-label">Descripción</label>
-                    <input type="input" class="form-control" id="descripcion" name="descripcion">
-                </div>
-                <button type="submit" class="btn btn-primary mt-2">Añadir objeto</button>
-            </form>
-            `
-            // boton crear objetos
-            let formObjeto = document.getElementById(`formObjeto${indice}`)
-            formObjeto.addEventListener('submit', (event) => {
-                event.preventDefault()
-                let nombreObjeto = document.getElementById("nombreObjeto").value
-                let descripcion = document.getElementById("descripcion").value
-                const nuevoObjeto = new Objeto(nombreObjeto, descripcion)
-                personaje.inventario.push(nuevoObjeto)
-                localStorage.setItem(`objetos${indice}`, JSON.stringify(personaje.inventario))
-                formObjeto.reset()
-            })
+    arr.forEach((personaje, indice) => {       
+        let formObjeto = document.getElementById(`formObjeto${indice}`)
+        formObjeto.addEventListener('submit', (e) => {
+            e.preventDefault()
+            let datForm = new FormData(e.target)
+            let nuevoObjeto = new Objeto(datForm.get('nombre'), datForm.get('descripcion'))
+            personaje.inventario.push(nuevoObjeto)
+            localStorage.setItem(`objetos${personaje.id}`, JSON.stringify(personaje.inventario))
+            formObjeto.reset()
         })
     })
 }
 //Crea boton para mostrar inventario y el boton para eliminar cada objeto
 function verInventario(arr){
     arr.forEach((personaje, indice) => {
-        const inventarioStorage = JSON.parse(localStorage.getItem(`objetos${indice}`)) ?? personaje.inventario
+        const inventarioStorage = JSON.parse(localStorage.getItem(`objetos${personaje.id}`)) ?? personaje.inventario
         let mostrarInventario = document.getElementById(`inventario${indice}`)
         let contenedorInventario = document.getElementById(`multiCollapseExample2${indice}`)
         mostrarInventario.addEventListener("click", () =>{
@@ -185,8 +177,8 @@ function verInventario(arr){
                 let botonObjeto = document.getElementById(`item${indice}`).firstElementChild.lastElementChild
                 botonObjeto.addEventListener('click', () => {
                     document.getElementById(`item${indice}`).remove()
-                    personaje.inventario.splice(indice, 1)
-                    localStorage.setItem(`objetos${indice}`, JSON.stringify(personaje.inventario))
+                    personaje.inventario.splice(inventarioStorage.indexOf(objeto), 1)
+                    localStorage.setItem(`objetos${personaje.id}`, JSON.stringify(personaje.inventario))
                 })
             })
         })
@@ -242,7 +234,7 @@ const divDado = document.getElementById("divDado")
 const resultado = document.getElementById("resultado")
 let giro
 function giroDado(numero){
-    giro = Math.round((Math.random() * numero))
+    giro = Math.ceil((Math.random() * numero))
     return giro
 }
 divDado.addEventListener("click", (e) => {
@@ -260,8 +252,3 @@ divDado.addEventListener("click", (e) => {
         })
     }
 })
-
-/* errores a solucionar:
-1) Los obj se sobreescriben en el inventario si vuelvo a mostrar el form.
-2) no funciona el inventario/form de los personajes con indice > 0
-*/

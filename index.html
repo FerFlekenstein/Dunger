@@ -25,15 +25,15 @@
         </nav>
     </header>
     <main>
-        <section class="row mt-3 mb-3 mx-2 justify-content-center">
-            <article class="col-md-8 border-bottom border-primary">
+        <section class="row my-3 mx-2 justify-content-center">
+            <article class="col-md-8">
                 <h2>¿Qué es Dunger?</h2>
                 <p>Es un asistente virtual para tus partidas de dungeons and dragons, en él podrás llevar un control de tus personajes. Cuenta con diferentes ilustraciones para cada clase existente hasta D&D 5° edición, créditos a su autor <a href="https://www.artstation.com/franco-schwetzke" target="_blank">franco-schwetzke.artstation.com</a> </p>
             </article>
         </section>
         <section class="mt-5">
-            <article class="row justify-content-center mt-3">
-                <form id="formulario" class="col-md-6 border border-primary p-3 rounded">
+            <article class="row justify-content-center mt-3 mx-0">
+                <form id="formulario" class="col-md-6 border border-primary p-3 rounded fondo text-dark">
                     <div class="mb-3">
                       <label for="nombrePJ" class="form-label">Nombre</label>
                       <input type="input" class="form-control" id="nombrePJ">
@@ -69,17 +69,20 @@
                     </div>
                     <button type="submit" class="btn btn-primary mt-2">Crear personaje</button>
                 </form>
+                <article class="col-md-2">
+                    <div class=" mx-2">
+                        <h6 class="fondo border rounded text-dark">¿Necesitas lanzar dados? Los numeros representan la cantidad de caras, úsalos:</h6>
+                        <div id="divDado" class="d-flex justify-content-around">
+                            <button class="btn btn-primary">3</button>
+                            <button class="btn btn-primary">8</button>
+                            <button class="btn btn-primary">20</button>
+                        </div>
+                        <p id="resultado"></p>
+                    </div>
+                </article>
             </article>
-            <button class="btn btn-primary ms-5 mt-2" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample0" aria-expanded="false" aria-controls="multiCollapseExample0" id="mostrarPjs">Ver personajes</button>
+            <button class="btn btn-primary ms-5 mt-2 mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#multiCollapseExample0" aria-expanded="false" aria-controls="multiCollapseExample0" id="mostrarPjs">Ver personajes</button>
             <article class="collapse multi-collapse row ms-4 mt-2 mb-3" id="multiCollapseExample0">
-            </article>
-            <article>
-                <div id="divDado">
-                    <button class="btn btn-primary">3</button>
-                    <button class="btn btn-primary">8</button>
-                    <button class="btn btn-primary">20</button>
-                </div>
-                <p id="resultado"></p>
             </article>
         </section>
     </main>
